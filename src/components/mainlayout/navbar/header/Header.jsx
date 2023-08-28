@@ -35,6 +35,8 @@ const Header = () => {
             </li>
           </ul>
         </div>
+        {/* //! */}
+        <div></div>
         {/* //DIV3 - Avatar */}
         <div
           style={{
