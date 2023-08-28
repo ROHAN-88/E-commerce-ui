@@ -1,0 +1,32 @@
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  // background-color: ;
+  background-color: #4682a9;
+
+  .link-a {
+    color: #f6f4eb;
+    &::after {
+      content: "";
+      height: 2px;
+      background-color: #91c8e4;
+      width: 10%;
+      display: block;
+      margin: auto;
+      transition: 0.7s;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+  ul {
+    display: flex;
+    gap: 2rem;
+
+    li {
+      list-style: none;
+    }
+  }
+}

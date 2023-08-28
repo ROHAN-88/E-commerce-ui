@@ -1,0 +1,28 @@
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #4682a9;
+}
+nav .link-a {
+  color: #f6f4eb;
+}
+nav .link-a::after {
+  content: "";
+  height: 2px;
+  background-color: #91c8e4;
+  width: 10%;
+  display: block;
+  margin: auto;
+  transition: 0.7s;
+}
+nav .link-a:hover::after {
+  width: 100%;
+}
+nav ul {
+  display: flex;
+  gap: 2rem;
+}
+nav ul li {
+  list-style: none;
+}/*# sourceMappingURL=main.css.map */

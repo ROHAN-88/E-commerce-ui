@@ -1,0 +1,32 @@
+.product-form-div {
+  width: 100%;
+  display: flex;
+  margin-top: 3rem;
+}
+.product-form-parent {
+  /* border: 1px red solid; */
+  width: 350px;
+  background-color: #a8df8e;
+  border-radius: 10px;
+  margin: auto;
+
+  padding: 2rem;
+}
+.product-form-parent input {
+  padding: 1rem;
+
+  background-color: #f3fde8;
+  border: 1px #f3fde8 solid;
+  border-radius: 7px;
+  color: #252b48;
+  text-align: center;
+}
+.product-form-input {
+  /* border: 1px black solid; */
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+}

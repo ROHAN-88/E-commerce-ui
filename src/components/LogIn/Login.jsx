@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 
-// import { $axios } from "../../lib/axios";
+import { $axios } from "../../lib/axios";
 import axios from "axios";
 
 import "./LogIn.css";
@@ -25,15 +25,12 @@ const Login = () => {
             password: Yup.string().required("Requirred").min(8).max(55),
           })}
           onSubmit={async (values) => {
-            console.log(values);
+            // console.log(values);
             try {
-              const respond = await axios.post(
-                "http://localhost:8000/user/login",
-                values
-              );
+              const respond = await $axios.post("/user/login", values);
 
               setLoading(false);
-
+              console.log(respond.data);
               // extract accesstoken
               const accesstoken = respond.data.access_token;
 
@@ -84,7 +81,7 @@ const Login = () => {
             <ErrorMessage name="password" id="error" />
 
             <div>
-              <Link to="/signup">Sign-up </Link>
+              <Link to="/signup">Don't have a account? </Link>
             </div>
             <button type="submit">Submit</button>
           </Form>

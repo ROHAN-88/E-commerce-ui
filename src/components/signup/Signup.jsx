@@ -1,65 +1,112 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as React from "react";
-import { Link } from "react-router-dom";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Formik } from "formik";
+// import * as React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { $axios } from "../../lib/axios";
 import * as Yup from "yup";
-import { Button, TextField, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+
 import "./Signup.css";
+
 const Signup = () => {
-  const [gender, setgender] = React.useState("");
-  const handleChange = (event) => {
-    setgender(event.target.value);
-  };
+  const [errorInfo, setErrorInfo] = useState({
+    isError: false,
+    errorMessage: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
+    <div className=" form-parent-signup">
+      {/* <CustomSnackbar
+        open={errorInfo.isError}
+        status="error"
+        message={errorInfo.errorMessage}
+      /> */}
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          gender: "",
+          dob: "",
+          role: "",
         }}
-        noValidate
-        autoComplete="off"
-      ></Box>
+        validationSchema={Yup.object({
+          email: Yup.string()
+            .email("Invalid email address.")
+            .required("Email is required.")
+            .min(5, "Must be at least 5 characters.")
+            .max(55, "Must be at most 55 characters.")
+            .trim(),
+          firstName: Yup.string()
+            .max(55, "Must be at most 55 characters.")
+            .required("First name is required.")
+            .min(2, "Must be at least 2 characters.")
+            .trim(),
+          lastName: Yup.string()
+            .max(55, "Must be at most 55 characters.")
+            .required("Last name is required.")
+            .min(2, "Must be at least 2 characters.")
+            .trim(),
+          password: Yup.string()
+            .max(25, "Must be at most 25 characters.")
+            .required("Password is required.")
+            //   .matches(
+            //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$/,
+            //     "Password must be at least 8 character with  at least 1 capital letter, 1 small letter, 1 number and 1 special character."
+            //   )
+            .trim(),
 
-      <div className="log-body2">
-        <Formik
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            gender: "",
-            role: "",
-          }}
-          validationSchema={Yup.object({
-            firstName: Yup.string()
-              .max(15, "Must be 15 characters or less")
-              .required("Required"),
-            lastName: Yup.string()
-              .max(20, "Must be 20 characters or less")
-              .required("Required"),
-            email: Yup.string()
-              .email("Invalid email address")
-              .required("Required"),
-            password: Yup.string().required("Requirred").min(8).max(55),
-            gender: Yup.string().required(),
-            // role: Yup.string().required(),
-            // date: Yup.date().required().trim(),
-          })}
-          onSubmit={(values) => {
-            console.log(values);
-            console.log("Hello");
-          }}
-        >
-          <Form className="form-parent">
+          gender: Yup.string()
+            .required("Please choose at least one gender.")
+            .trim()
+            .oneOf(
+              ["male", "female", "preferNotToSay"],
+              "Gender must be male,female or prefer not to say."
+            ),
+
+          role: Yup.string()
+            .required("Please choose at least one role.")
+            .trim()
+            .oneOf(["buyer", "seller"]),
+
+          dob: Yup.date("Must be valid date.").required(
+            "Date of birth is required."
+          ),
+        })}
+        onSubmit={async (values) => {
+          console.log(values);
+          setLoading(true);
+          // api hit
+          try {
+            const response = await $axios.post("/user/register", values);
+            setLoading(false);
+            // route to login
+            navigate("/login");
+          } catch (error) {
+            setErrorInfo({
+              // isError: true,
+              // console.log(error.message)
+              // errorMessage: error.response.data.message,
+            });
+            console.log(e.message);
+            setLoading(false);
+          }
+        }}
+      >
+        {({ errors, handleSubmit, touched, getFieldProps }) => (
+          <form className="input-parent" onSubmit={handleSubmit}>
             <div className="nav">
               <div>
                 <h2
@@ -76,102 +123,125 @@ const Signup = () => {
                 <h2> LOGO</h2>
               </div>
             </div>
-            <label>Sign Up</label>
-            <div className="two-div">
-              {/* <label>First Name</label> */}
-              <Field name="firstName" type="text" placeholder="First Name" />
-              <ErrorMessage name="firstName" />
-
-              {/* <label>Last Name</label> */}
-              <Field name="lastName" type="text" placeholder="Last Name" />
-              <ErrorMessage name="lastName" />
-            </div>
-            {/* <label>Email Address</label> */}
-            {/* <Field name="email" type="email" placeholder="example@gmail.com" /> */}
-            <TextField
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="Expamle@gmail.com"
-            />
-            {/* //!password */}
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-            />
-            {/* //!gender */}
-            <FormControl
-              sx={{ m: 1, minWidth: 120, background: "#f9f9f9" }}
-              size="small"
+            <Typography
+              variant="h3"
+              sx={{ textAlign: "center", color: "grey" }}
             >
-              <InputLabel id="demo-select-small-label">Gender</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                name="gender"
-                value={gender}
-                label="Gender"
-                onChange={handleChange}
-              >
-                {/* <MenuItem value=""></MenuItem> */}
-                <MenuItem value={"male"}>Male</MenuItem>
-                <MenuItem value={"female"}>Female</MenuItem>
-                <MenuItem value={" Prefer not to say"}>
-                  Prefer not to say
-                </MenuItem>
-              </Select>
-            </FormControl>
-            {/* //!role */}
-            <Field
-              name="role"
-              as="select"
-              className="my-select"
+              Sign up
+            </Typography>
+            <div
               style={{
-                padding: "0.8rem",
-                background: "#f3fde8",
-                color: "black",
-
-                border: "none",
-                borderRadius: "7px",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                gap: "1rem",
               }}
             >
-              <option value="Buyer">Buyer</option>
-              <option value="Seller">Seller</option>
-            </Field>
-
-            {/* <FormControl
-              sx={{ m: 1, minWidth: 120, background: "#f9f9f9" }}
-              size="small"
-            >
-              <InputLabel id="demo-select-small-label">Role</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                name="role"
-                value={role}
-                label="Role"
-                onChange={handleChange}
-              >
-                {/* <MenuItem value=""></MenuItem> */}
-            {/* <MenuItem value={"buyer"}>Buyer</MenuItem>
-                <MenuItem value={"seller"}>Seller</MenuItem>
-              </Select>
-            </FormControl> */}
-            {/* //!here date  */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Date Of Birth" />
-              </DemoContainer>
-            </LocalizationProvider>
-            <div>
-              <Link to="/Login">Log-In </Link>
+              <TextField
+                name="firstName"
+                label="First name"
+                {...getFieldProps("firstName")}
+              />
+              {touched.firstName && errors.firstName ? (
+                <div className="error-message">{errors.firstName}</div>
+              ) : null}
+              <TextField
+                name="lastName"
+                label="Last name"
+                {...getFieldProps("lastName")}
+              />
+              {touched.lastName && errors.lastName ? (
+                <div className="error-message">{errors.lastName}</div>
+              ) : null}
             </div>
-            <button type="submit">Submit</button>
-          </Form>
-        </Formik>
-      </div>
-    </>
+
+            <div className="gap">
+              <TextField
+                name="email"
+                label="Email"
+                {...getFieldProps("email")}
+              />
+              {touched.email && errors.email ? (
+                <div className="error-message">{errors.email}</div>
+              ) : null}
+            </div>
+
+            <div className="gap">
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                {...getFieldProps("password")}
+              />
+              {touched.password && errors.password ? (
+                <div className="error-message">{errors.password}</div>
+              ) : null}
+            </div>
+
+            <div className="gap">
+              <FormControl fullWidth>
+                <InputLabel>Gender</InputLabel>
+                <Select
+                  name="gender"
+                  label="Gender"
+                  {...getFieldProps("gender")}
+                  style={{
+                    background: "#f3fde8",
+                  }}
+                >
+                  <MenuItem value="male">Male</MenuItem>
+                  <MenuItem value="female">Female</MenuItem>
+                  <MenuItem value="preferNotToSay">Prefer not to say</MenuItem>
+                </Select>
+                {touched.gender && errors.gender ? (
+                  <div className="error-message">{errors.gender}</div>
+                ) : null}
+              </FormControl>
+            </div>
+
+            <div className="gap">
+              <FormControl fullWidth>
+                <InputLabel>Role</InputLabel>
+                <Select
+                  name="role"
+                  label="Role"
+                  {...getFieldProps("role")}
+                  style={{
+                    background: "#f3fde8",
+                  }}
+                >
+                  <MenuItem value="buyer">Buyer</MenuItem>
+                  <MenuItem value="seller">Seller</MenuItem>
+                </Select>
+                {touched.role && errors.role ? (
+                  <div className="error-message">{errors.role}</div>
+                ) : null}
+              </FormControl>
+            </div>
+
+            <div className="gap">
+              <TextField name="dob" label="DOB" {...getFieldProps("dob")} />
+              {touched.dob && errors.dob ? (
+                <div className="error-message">{errors.dob}</div>
+              ) : null}
+            </div>
+
+            <div>
+              <Link to="/login">Already have an account?</Link>
+            </div>
+
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ marginTop: "1rem", width: "100%" }}
+              disabled={loading}
+            >
+              Register
+            </Button>
+          </form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
