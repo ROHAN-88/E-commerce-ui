@@ -32,12 +32,22 @@ const Login = () => {
               setLoading(false);
               console.log(respond.data);
               // extract accesstoken
-              const accesstoken = respond.data.access_token;
+              const accesstoken = respond.data.accesstoken;
 
               console.log(respond);
 
-              // save access token to local storage
+              // save access token to local storage.it is a key value pair
               localStorage.setItem("accesstoken", accesstoken);
+
+              //user full name
+              const username =
+                respond?.data?.user?.firstName +
+                " " +
+                respond?.data?.user?.lastName;
+
+              localStorage.setItem("username", username);
+
+              localStorage.setItem("role", respond?.data?.user?.role);
 
               // push to home page
               navigate("/");

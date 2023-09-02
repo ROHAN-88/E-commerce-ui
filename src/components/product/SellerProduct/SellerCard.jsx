@@ -1,0 +1,89 @@
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import "./Sellercard.css";
+
+const SellerCard = (props) => {
+  const { _id, color, category, company, price, name } = props;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const handleLogout = () => {
+    // localStorage.clear();
+    // navigate("/login");
+    alert("Deleted");
+  };
+  return (
+    <div className="seller-card">
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <div style={{ borderRadius: "5rem" }}>
+          <Typography sx={{ p: 2 }}>Do You want to Delete</Typography>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "1rem",
+            }}
+          >
+            <button onClick={handleLogout}> yes</button>
+
+            <button onClick={() => handleClose()}>No</button>
+          </div>
+        </div>
+      </Popover>
+      <Card sx={{ maxWidth: 345, borderRadius: "10px" }}>
+        <CardMedia
+          component="img"
+          alt="green iguana"
+          height="140"
+          image="/Screenshot (166).png"
+        />
+        <CardContent>
+          <div>
+            <Typography gutterBottom variant="h5" component="div">
+              {name}
+            </Typography>
+            <Typography variant="h6" color={"#4682a9"}>
+              {company}
+            </Typography>
+          </div>
+          <Typography variant="body2" color="text.secondary">
+            Lizards are a widespread group of squamate reptiles, with over 6,000
+            species, ranging across all continents except Antarctica
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" variant="contained" onClick={handleClick}>
+            Delete
+          </Button>
+
+          <Button size="small">Expoler</Button>
+        </CardActions>
+      </Card>
+    </div>
+  );
+};
+
+export default SellerCard;

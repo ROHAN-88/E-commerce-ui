@@ -1,5 +1,6 @@
 .footer {
   background-color: #9e9fa5;
+  margin-top: 2rem;
   position: fixed;
   bottom: 0px;
   right: 0;
@@ -7,4 +8,5 @@
   text-align: center;
   height: 20px;
   padding: 0.5rem;
+  border: 2px red solid;
 }

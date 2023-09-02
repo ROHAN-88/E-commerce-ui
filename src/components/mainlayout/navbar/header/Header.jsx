@@ -1,12 +1,31 @@
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
+import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import React from "react";
+import { CiLogout } from "react-icons/ci";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import "../header/scss/main.css";
+
 const Header = () => {
+  const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <>
       <nav>
@@ -58,6 +77,40 @@ const Header = () => {
             <Stack direction="row" spacing={2}>
               <Avatar>R</Avatar>
             </Stack>
+          </div>
+
+          {/* button logout  */}
+          <div>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <div>
+                <Typography sx={{ p: 2 }}>Do you want to Log out .</Typography>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    gap: "1rem",
+                  }}
+                >
+                  <button onClick={handleLogout}> yes</button>
+
+                  <button onClick={() => handleClose()}>No</button>
+                </div>
+              </div>
+            </Popover>
+
+            <button onClick={handleClick}>
+              <CiLogout size={20} />
+            </button>
           </div>
         </div>
       </nav>
