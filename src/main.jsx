@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Guestrouter from "./Routes/Guestrouter";
 import logInRoutes from "./Routes/LogedIn";
+
 import "./index.css";
 const queryClient = new QueryClient();
 

@@ -6,10 +6,22 @@ import CardMedia from "@mui/material/CardMedia";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import "./Sellercard.css";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteSellerProduct } from "../../lib/product.api";
+import "./ProductCard.css";
+import Loader from "../../Loader";
+import { useNavigate } from "react-router-dom";
 
-const SellerCard = (props) => {
+const ProductCard = (props) => {
+  const navigate = useNavigate();
+  //!props
   const { _id, color, category, company, price, name } = props;
+
+  //!get role from local storage
+  const userRole = localStorage.getItem("role");
+
+  const queryClient = useQueryClient();
+  //!popover
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,11 +32,19 @@ const SellerCard = (props) => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const handleLogout = () => {
-    // localStorage.clear();
-    // navigate("/login");
-    alert("Deleted");
-  };
+  //!mutation
+  const deleteProduct = useMutation({
+    mutationKey: ["delete-product"],
+    mutationFn: () => deleteSellerProduct(_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries("seller-product");
+    },
+  });
+
+  if (deleteProduct.isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="seller-card">
       <Popover
@@ -47,7 +67,14 @@ const SellerCard = (props) => {
               gap: "1rem",
             }}
           >
-            <button onClick={handleLogout}> yes</button>
+            <button
+              onClick={() => {
+                handleClose();
+                deleteProduct.mutate();
+              }}
+            >
+              yes
+            </button>
 
             <button onClick={() => handleClose()}>No</button>
           </div>
@@ -58,7 +85,7 @@ const SellerCard = (props) => {
           component="img"
           alt="green iguana"
           height="140"
-          image="/Screenshot (166).png"
+          image="/img//Screenshot (166).png"
         />
         <CardContent>
           <div>
@@ -75,15 +102,26 @@ const SellerCard = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="contained" onClick={handleClick}>
-            Delete
-          </Button>
+          {userRole === "seller" && (
+            <Button size="small" variant="contained" onClick={handleClick}>
+              Delete
+            </Button>
+          )}
 
-          <Button size="small">Expoler</Button>
+          {userRole === "buyer" && (
+            <Button variant="contained">Add to Cart </Button>
+          )}
+
+          <Button
+            size="small"
+            onClick={() => navigate(`/product/detail/${_id}`)}
+          >
+            Expoler
+          </Button>
         </CardActions>
       </Card>
     </div>
   );
 };
 
-export default SellerCard;
+export default ProductCard;

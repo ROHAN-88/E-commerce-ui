@@ -2,30 +2,14 @@ import Pagination from "@mui/material/Pagination";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getBuyerProduct } from "../../../lib/product.api";
-import BuyerCard from "./BuyerCard";
+import ProductCard from "../ProductCard";
 const BuyerProduct = () => {
   // const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const getPaginationData = (event, data) => {
     setPage(data);
   };
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await $axios.post("/product/buyer/all", {
-  //       page: 1,
-  //       limit: 10,
-  //     });
 
-  //     console.log(response.data);
-  //     setProducts(response.data);
-  //   } catch (e) {
-  //     // console.log({ message: e.response.data });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
   //!Query
 
   const { error, data, isLoading } = useQuery({
@@ -47,7 +31,7 @@ const BuyerProduct = () => {
     >
       {data?.data?.map((item, index, self) => {
         // console.log(item);
-        return <BuyerCard key={index} {...item} />;
+        return <ProductCard key={index} {...item} />;
       })}
 
       <div

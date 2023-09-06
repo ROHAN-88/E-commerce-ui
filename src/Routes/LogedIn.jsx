@@ -1,17 +1,18 @@
 import Mainlayout from "../components/mainlayout/Mainlayout";
 
 import About from "../components/about-page/About";
-import { Home } from "../components/home/Home";
 import Product from "../components/product/Product";
 // import ProductForm from "../components/product/PROroductForm";
 import ProductForm from "../components/product/form-product/ProductForm";
+import ProductDetail from "../components/product/Productdetail/ProductDetail";
+import Home from "../components/home/Home";
 const logInRoutes = [
   {
     path: "/",
     element: <Mainlayout />,
     children: [
       {
-        path: "hello",
+        path: "home",
         element: <Home />,
       },
       {
@@ -25,6 +26,10 @@ const logInRoutes = [
       {
         path: "product/add",
         element: <ProductForm />,
+      },
+      {
+        path: "product/detail/:id",
+        element: <ProductDetail />,
       },
     ],
   },

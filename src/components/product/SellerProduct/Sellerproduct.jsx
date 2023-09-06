@@ -4,7 +4,8 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../Loader";
 import { getSellerProduct } from "../../../lib/product.api";
-import SellerCard from "./SellerCard";
+// import SellerCard from "./SellerCard";
+import ProductCard from "../ProductCard";
 
 const Sellerproduct = () => {
   const navigate = useNavigate();
@@ -14,14 +15,14 @@ const Sellerproduct = () => {
   };
 
   const { error, data, isLoading } = useQuery({
-    queryKey: ["seller-product", page],
+    queryKey: ["seller-product", { page }],
     queryFn: () => getSellerProduct({ page: page, limit: 8 }),
   });
 
   if (isLoading) {
     return <Loader />;
   }
-  console.log(data?.data);
+
   return (
     <>
       <div
@@ -50,7 +51,7 @@ const Sellerproduct = () => {
         }}
       >
         {data?.data?.map((item, index) => {
-          return <SellerCard key={index} {...item} />;
+          return <ProductCard key={index} {...item} />;
         })}
       </div>
 
