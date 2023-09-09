@@ -39,6 +39,7 @@ const ProductCard = (props) => {
     onSuccess: () => {
       queryClient.invalidateQueries("seller-product");
     },
+    // onError: {},
   });
 
   if (deleteProduct.isLoading) {

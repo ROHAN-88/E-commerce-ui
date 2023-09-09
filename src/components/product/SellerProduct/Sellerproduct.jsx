@@ -6,6 +6,7 @@ import Loader from "../../../Loader";
 import { getSellerProduct } from "../../../lib/product.api";
 // import SellerCard from "./SellerCard";
 import ProductCard from "../ProductCard";
+import { Button } from "@mui/material";
 
 const Sellerproduct = () => {
   const navigate = useNavigate();
@@ -34,12 +35,13 @@ const Sellerproduct = () => {
           marginRight: "2rem",
         }}
       >
-        <button
+        <Button
           onClick={() => navigate("/product/add")}
           style={{ marginRight: "3rem" }}
+          variant="contained"
         >
           Add Product
-        </button>
+        </Button>
       </div>
       <div
         style={{

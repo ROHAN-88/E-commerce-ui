@@ -4,7 +4,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Guestrouter from "./Routes/Guestrouter";
 import logInRoutes from "./Routes/LogedIn";
-
+import store from "./store/index";
+import { Provider } from "react-redux";
 import "./index.css";
 const queryClient = new QueryClient();
 
@@ -13,8 +14,10 @@ const router = createBrowserRouter(applicationRoutes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Provider>
   </React.StrictMode>
 );

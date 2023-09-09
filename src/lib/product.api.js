@@ -15,3 +15,7 @@ export const deleteSellerProduct = async (id) => {
 export const productDetailQuires = async (id) => {
   return await $axios.get(`/product/detail/${id}`);
 };
+
+export const addProductQuery = async (values) => {
+  return await $axios.post("/product/adds", values);
+};

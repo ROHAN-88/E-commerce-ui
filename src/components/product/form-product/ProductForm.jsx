@@ -11,9 +11,36 @@ import { $axios } from "../../../lib/axios";
 import * as Yup from "yup";
 import "./product-form.css";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { addProductQuery } from "../../../lib/product.api";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSucessSnackbar,
+} from "../../../store/customSlice";
 
 const ProductForm = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const addProductMutaion = useMutation({
+    mutationKey: ["Add-product-seller"],
+    mutationFn: (values) => addProductQuery(values),
+    onSuccess: () => {
+      dispatch(openSucessSnackbar("Product added sucessfully"));
+      navigate("/product");
+    },
+    onError: (error) => {
+      dispatch(
+        openErrorSnackbar(
+          error?.respond?.data?.message || "Something went wrong"
+        )
+      );
+    },
+  });
+  console.log(addProductMutaion);
+
   const category = [
     "grocery",
     "kitchen",
@@ -71,14 +98,7 @@ const ProductForm = () => {
             freeShipping: Yup.boolean(),
           })}
           onSubmit={async (values) => {
-            try {
-              const respond = await $axios.post("/product/adds", values);
-              navigate("/product");
-              console.log(respond);
-            } catch (e) {
-              console.log(e.message);
-            }
-            console.log(values);
+            addProductMutaion.mutate(values);
           }}
         >
           {(formik) => (
