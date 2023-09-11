@@ -8,7 +8,7 @@ import Alert from "@mui/material/Alert";
 const CustomSnack = () => {
   const SnackbarData = useSelector((state) => state.snackbar);
   const dispatch = useDispatch();
-  console.log(SnackbarData);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;

@@ -8,30 +8,33 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-// import * as React from "react";
-import React, { useState } from "react";
+import React from "react";
+import { useMutation } from "react-query";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { $axios } from "../../lib/axios";
 import * as Yup from "yup";
-
+import { signupApi } from "../../lib/login-signup/login_signup.api";
+import { openErrorSnackbar, openSucessSnackbar } from "../../store/customSlice";
 import "./Signup.css";
 
 const Signup = () => {
-  const [errorInfo, setErrorInfo] = useState({
-    isError: false,
-    errorMessage: "",
-  });
-
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { mutate, isLoading, isError } = useMutation({
+    mutationKey: ["sigup-key"],
+    mutationFn: (values) => signupApi(values),
+    onSuccess: () => {
+      dispatch(openSucessSnackbar("user register"));
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.log(error);
+      dispatch(openErrorSnackbar(error?.response?.data + "hello"));
+    },
+  });
 
   return (
     <div className=" form-parent-signup">
-      {/* <CustomSnackbar
-        open={errorInfo.isError}
-        status="error"
-        message={errorInfo.errorMessage}
-      /> */}
       <Formik
         initialValues={{
           email: "",
@@ -85,24 +88,8 @@ const Signup = () => {
             "Date of birth is required."
           ),
         })}
-        onSubmit={async (values) => {
-          console.log(values);
-          setLoading(true);
-          // api hit
-          try {
-            const response = await $axios.post("/user/register", values);
-            setLoading(false);
-            // route to login
-            navigate("/login");
-          } catch (error) {
-            setErrorInfo({
-              // isError: true,
-              // console.log(error.message)
-              // errorMessage: error.response.data.message,
-            });
-            console.log(e.message);
-            setLoading(false);
-          }
+        onSubmit={(values) => {
+          mutate(values);
         }}
       >
         {({ errors, handleSubmit, touched, getFieldProps }) => (
@@ -234,7 +221,7 @@ const Signup = () => {
               variant="contained"
               type="submit"
               sx={{ marginTop: "1rem", width: "100%" }}
-              disabled={loading}
+              disabled={isLoading}
             >
               Register
             </Button>

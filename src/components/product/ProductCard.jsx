@@ -38,6 +38,7 @@ const ProductCard = (props) => {
     mutationFn: () => deleteSellerProduct(_id),
     onSuccess: () => {
       queryClient.invalidateQueries("seller-product");
+      //todo error fix: not reloading when product deleted
     },
     // onError: {},
   });

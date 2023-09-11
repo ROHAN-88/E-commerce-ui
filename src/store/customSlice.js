@@ -15,7 +15,7 @@ export const snackbarSlice = createSlice({
     },
     openSucessSnackbar: (state, action) => {
       (state.open = true),
-        (state.severity = "sucess"),
+        (state.severity = "success"),
         (state.message = action.payload);
     },
     closeSnackbar: (state, action) => {

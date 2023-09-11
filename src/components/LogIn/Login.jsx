@@ -1,18 +1,53 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import Loader from "../../Loader";
 
-import { $axios } from "../../lib/axios";
-import axios from "axios";
-
+import { useMutation } from "react-query";
+import { loginApi } from "../../lib/login-signup/login_signup.api";
 import "./LogIn.css";
+import { useDispatch } from "react-redux";
+import { openErrorSnackbar, openSucessSnackbar } from "../../store/customSlice";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
+  const loginMutation = useMutation({
+    mutationKey: ["login-key"],
+    mutationFn: (values) => loginApi(values),
+    onSuccess: (respond) => {
+      // extract accesstoken
+
+      const accesstoken = respond?.data?.accesstoken;
+      // console.log(accesstoken);
+      // save access token to local storage.it is a key value pair
+      localStorage.setItem("accesstoken", accesstoken);
+
+      //user full name
+      const username =
+        respond?.data?.user?.firstName + " " + respond?.data?.user?.lastName;
+
+      localStorage.setItem("username", username);
+
+      localStorage.setItem("role", respond?.data?.user?.role);
+
+      //navigation
+      navigate("/home");
+
+      dispatch(openSucessSnackbar("Welcome"));
+    },
+    onError: (error) => {
+      console.log(error?.response?.data);
+      console.log("error");
+      dispatch(openErrorSnackbar("something went wrong"));
+    },
+  });
+
+  if (loginMutation.isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="log-body">
@@ -24,37 +59,8 @@ const Login = () => {
               .required("Required"),
             password: Yup.string().required("Requirred").min(8).max(55),
           })}
-          onSubmit={async (values) => {
-            // console.log(values);
-            try {
-              const respond = await $axios.post("/user/login", values);
-
-              setLoading(false);
-              console.log(respond.data);
-              // extract accesstoken
-              const accesstoken = respond.data.accesstoken;
-
-              console.log(respond);
-
-              // save access token to local storage.it is a key value pair
-              localStorage.setItem("accesstoken", accesstoken);
-
-              //user full name
-              const username =
-                respond?.data?.user?.firstName +
-                " " +
-                respond?.data?.user?.lastName;
-
-              localStorage.setItem("username", username);
-
-              localStorage.setItem("role", respond?.data?.user?.role);
-
-              // push to home page
-              navigate("/");
-              console.log(respond.data.accesstoken);
-            } catch (e) {
-              console.log(e.message);
-            }
+          onSubmit={(values) => {
+            loginMutation.mutate(values);
           }}
         >
           <Form className="form-parent">

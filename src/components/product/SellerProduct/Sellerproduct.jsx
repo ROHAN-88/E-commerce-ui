@@ -8,16 +8,19 @@ import { getSellerProduct } from "../../../lib/product.api";
 import ProductCard from "../ProductCard";
 import { Button } from "@mui/material";
 
-const Sellerproduct = () => {
+const Sellerproduct = (props) => {
+  //navigation
   const navigate = useNavigate();
+  //pagiantion
   const [page, setPage] = useState(1);
   const getPaginationData = (event, data) => {
     setPage(data);
   };
-
+  //query
   const { error, data, isLoading } = useQuery({
-    queryKey: ["seller-product", { page }],
-    queryFn: () => getSellerProduct({ page: page, limit: 8 }),
+    queryKey: ["seller-product", { page, searchText: props?.searchText }],
+    queryFn: () =>
+      getSellerProduct({ page: page, limit: 8, searchText: props?.searchText }),
   });
 
   if (isLoading) {
