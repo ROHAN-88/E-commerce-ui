@@ -7,8 +7,10 @@ import { getSellerProduct } from "../../../lib/product.api";
 // import SellerCard from "./SellerCard";
 import ProductCard from "../ProductCard";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const Sellerproduct = (props) => {
+  const selector = useSelector((state) => state.product);
   //navigation
   const navigate = useNavigate();
   //pagiantion
@@ -18,7 +20,10 @@ const Sellerproduct = (props) => {
   };
   //query
   const { error, data, isLoading } = useQuery({
-    queryKey: ["seller-product", { page, searchText: props?.searchText }],
+    queryKey: [
+      "seller-product",
+      { page, searchText: props?.searchText, isDeleted: selector.isDeleted },
+    ],
     queryFn: () =>
       getSellerProduct({ page: page, limit: 8, searchText: props?.searchText }),
   });

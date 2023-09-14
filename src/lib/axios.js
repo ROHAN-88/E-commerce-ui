@@ -5,6 +5,8 @@ export const $axios = axios.create({
   timeout: 1000,
   //   headers: { "X-Custom-Header": "foobar" },
 });
+
+//!setting certain nr=eed info in local storage through axios
 $axios.interceptors.request.use(function (config) {
   // extract accesstoken from local storage
   const accesstoken = localStorage.getItem("accesstoken");

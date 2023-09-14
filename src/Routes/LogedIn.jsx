@@ -6,6 +6,7 @@ import Product from "../components/product/Product";
 import ProductForm from "../components/product/form-product/ProductForm";
 import ProductDetail from "../components/product/Productdetail/ProductDetail";
 import Home from "../components/home/Home";
+import Editproduct from "../components/product/EditProduct/Editproduct";
 const logInRoutes = [
   {
     path: "/",
@@ -30,6 +31,10 @@ const logInRoutes = [
       {
         path: "product/detail/:id",
         element: <ProductDetail />,
+      },
+      {
+        path: "product/edit/:id",
+        element: <Editproduct />,
       },
     ],
   },

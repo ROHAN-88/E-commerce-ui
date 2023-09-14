@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getBuyerProduct } from "../../../lib/product.api";
 import ProductCard from "../ProductCard";
-const BuyerProduct = () => {
+const BuyerProduct = (props) => {
   // const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const getPaginationData = (event, data) => {
@@ -13,8 +13,9 @@ const BuyerProduct = () => {
   //!Query
 
   const { error, data, isLoading } = useQuery({
-    queryKey: ["buyer-product", page],
-    queryFn: () => getBuyerProduct({ page: page, limit: 8 }),
+    queryKey: ["buyer-product", { page, searchText: props?.searchText }],
+    queryFn: () =>
+      getBuyerProduct({ page: page, limit: 8, searchText: props?.searchText }),
   });
 
   // console.log(data);

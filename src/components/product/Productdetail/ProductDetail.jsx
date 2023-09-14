@@ -71,7 +71,12 @@ const ProductDetail = () => {
               )}
 
               {role === "seller" && (
-                <Button variant="contained">Edit Product </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate(`/product/edit/${productId}`)}
+                >
+                  Edit Product
+                </Button>
               )}
             </ul>
           </Grid>

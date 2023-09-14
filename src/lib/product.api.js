@@ -19,3 +19,7 @@ export const productDetailQuires = async (id) => {
 export const addProductQuery = async (values) => {
   return await $axios.post("/product/adds", values);
 };
+
+export const editProductQuery = async (id, values) => {
+  return await $axios.put(`/product/edit/${id}`, values);
+};

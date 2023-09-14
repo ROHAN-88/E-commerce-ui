@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Sellerproduct from "./SellerProduct/Sellerproduct";
 import BuyerProduct from "./Buyer-product/BuyerProduct";
 import { Box, Grid, TextField } from "@mui/material";
+import ProductFilter from "./filter/ProductFilter";
 const Product = () => {
   const userRole = localStorage.getItem("role");
 
@@ -15,8 +16,11 @@ const Product = () => {
           justifyContent: "flex-end",
           marginTop: "2rem",
           marginRight: "4rem",
+          gap: "2rem",
         }}
       >
+        {/* //product filter called */}
+        <ProductFilter />
         <TextField
           placeholder="Search"
           onChange={(event) => setSearchText(event.target.value)}
@@ -30,6 +34,7 @@ const Product = () => {
         <Sellerproduct searchText={searchText} />
       ) : (
         <BuyerProduct searchText={searchText} />
+        
       )}
     </Box>
   );

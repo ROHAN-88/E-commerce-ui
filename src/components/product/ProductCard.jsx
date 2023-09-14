@@ -11,9 +11,12 @@ import { deleteSellerProduct } from "../../lib/product.api";
 import "./ProductCard.css";
 import Loader from "../../Loader";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsProductDeleted } from "../../store/productSlice";
 
 const ProductCard = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //!props
   const { _id, color, category, company, price, name } = props;
 
@@ -37,8 +40,10 @@ const ProductCard = (props) => {
     mutationKey: ["delete-product"],
     mutationFn: () => deleteSellerProduct(_id),
     onSuccess: () => {
-      queryClient.invalidateQueries("seller-product");
+      // queryClient.invalidateQueries("seller-product");
+      dispatch(setIsProductDeleted());
       //todo error fix: not reloading when product deleted
+      //error fixed with browser change
     },
     // onError: {},
   });
