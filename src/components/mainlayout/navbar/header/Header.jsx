@@ -67,7 +67,9 @@ const Header = () => {
           <div
             style={{
               fontSize: "28px",
+              cursor: "pointer",
             }}
+            onClick={() => navigate("/cart")}
           >
             <Badge badgeContent={5} color="primary">
               <FaShoppingCart />

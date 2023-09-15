@@ -6,12 +6,12 @@ import CustomSnack from "../snackbar/CustomSnack";
 
 const Mainlayout = () => {
   return (
-    <>
+    <div>
       <Header />
       <CustomSnack />
       <Outlet />
-      <Footer />
-    </>
+      {/* <Footer /> */}
+    </div>
   );
 };
 
