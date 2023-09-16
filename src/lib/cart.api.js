@@ -1,7 +1,7 @@
-import { $axios } from "../axios";
+import { $axios } from "./axios";
 
 export const addItemToCart = async (values) => {
-  console.log({ values });
+  // console.log({ values });
   return await $axios.post("/cart/add", values);
 };
 

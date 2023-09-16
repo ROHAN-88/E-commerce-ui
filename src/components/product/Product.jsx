@@ -4,10 +4,13 @@ import Sellerproduct from "./SellerProduct/Sellerproduct";
 import BuyerProduct from "./Buyer-product/BuyerProduct";
 import { Box, Grid, TextField } from "@mui/material";
 import ProductFilter from "./filter/ProductFilter";
+import { useDispatch } from "react-redux";
+import { setSearchText } from "../../store/productSlice";
 const Product = () => {
   const userRole = localStorage.getItem("role");
 
-  const [searchText, setSearchText] = useState("");
+  // const [searchText, setSearchText] = useState("");
+  const dispatch = useDispatch();
   return (
     <Box>
       <Grid
@@ -23,19 +26,14 @@ const Product = () => {
         <ProductFilter />
         <TextField
           placeholder="Search"
-          onChange={(event) => setSearchText(event.target.value)}
+          onChange={(event) => dispatch(setSearchText(event.target.value))}
           sx={{ width: "300px" }}
 
           // TODO:place icon here
         />
       </Grid>
 
-      {userRole === "seller" ? (
-        <Sellerproduct searchText={searchText} />
-      ) : (
-        <BuyerProduct searchText={searchText} />
-        
-      )}
+      {userRole === "seller" ? <Sellerproduct /> : <BuyerProduct />}
     </Box>
   );
 };

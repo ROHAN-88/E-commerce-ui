@@ -1,18 +1,25 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import React from "react";
+import React, { useState } from "react";
+import { GrAdd } from "react-icons/gr";
 import "./productDetail.css";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { AiOutlineMinus } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { productDetailQuires } from "../../../lib/product.api";
 import Loader from "../../../Loader";
+import { addItemToCart } from "../../../lib/cart.api";
 
 const ProductDetail = () => {
   //!local storage get role
   const role = localStorage.getItem("role");
+
   //!navigator
   const navigate = useNavigate();
+
+  //!usestate
+  const [counter, setCounter] = useState(1);
 
   //!params
   const params = useParams();
@@ -22,6 +29,12 @@ const ProductDetail = () => {
   const { isError, isLoading, data } = useQuery({
     queryKey: "product-detail",
     queryFn: () => productDetailQuires(productId),
+  });
+
+  //!mutation
+  const addItemToCartMutation = useMutation({
+    mutationKey: ["add-item-to-cart"],
+    mutationFn: () => addItemToCart({ productId, quantity: counter }),
   });
 
   if (isLoading) {
@@ -67,7 +80,52 @@ const ProductDetail = () => {
               <li>Category :{productData?.category}</li>
 
               {role === "buyer" && (
-                <Button variant="contained">Add to Cart </Button>
+                <>
+                  <Grid item sx={{ display: "flex", gap: "1rem" }}>
+                    <Typography sx={{ fontSize: "1.5rem" }}>
+                      Number of items
+                    </Typography>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        const newCount = counter + 1;
+                        if (newCount >= productData?.quantity) {
+                          setCounter(productData?.quantity);
+                        } else {
+                          setCounter(newCount);
+                        }
+                      }}
+                    >
+                      <GrAdd size={30} />
+                    </Button>
+                    <Typography variant="h3">{counter}</Typography>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        const newCount = counter - 1;
+
+                        if (newCount <= 0) {
+                          setCounter(1);
+                        } else {
+                          setCounter(newCount);
+                        }
+                      }}
+                    >
+                      <AiOutlineMinus size={30} />
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      onClick={() => {
+                        addItemToCartMutation.mutate();
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  </Grid>
+                </>
               )}
 
               {role === "seller" && (

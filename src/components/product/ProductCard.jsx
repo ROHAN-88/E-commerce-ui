@@ -13,6 +13,7 @@ import Loader from "../../Loader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIsProductDeleted } from "../../store/productSlice";
+import { addItemToCart } from "../../lib/cart.api";
 
 const ProductCard = (props) => {
   const navigate = useNavigate();
@@ -46,6 +47,12 @@ const ProductCard = (props) => {
       //error fixed with browser change
     },
     // onError: {},
+  });
+
+  //!mutation for addto cart
+  const addToCart = useMutation({
+    mutationKey: ["add-to-Cart"],
+    mutationFn: (values) => addItemToCart(values),
   });
 
   if (deleteProduct.isLoading) {
@@ -113,10 +120,6 @@ const ProductCard = (props) => {
             <Button size="small" variant="contained" onClick={handleClick}>
               Delete
             </Button>
-          )}
-
-          {userRole === "buyer" && (
-            <Button variant="contained">Add to Cart </Button>
           )}
 
           <Button

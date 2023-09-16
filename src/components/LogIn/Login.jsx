@@ -33,6 +33,8 @@ const Login = () => {
 
       localStorage.setItem("role", respond?.data?.user?.role);
 
+      localStorage.setItem("isLoggedIn", true);
+
       //navigation
       navigate("/home");
 

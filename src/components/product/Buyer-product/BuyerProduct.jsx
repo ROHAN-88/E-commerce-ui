@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getBuyerProduct } from "../../../lib/product.api";
 import ProductCard from "../ProductCard";
+import { useSelector } from "react-redux";
 const BuyerProduct = (props) => {
   // const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -10,12 +11,26 @@ const BuyerProduct = (props) => {
     setPage(data);
   };
 
+  //!calling fillter redux
+  const { minPrice, maxPrice, searchText, category } = useSelector(
+    (state) => state.product
+  );
   //!Query
 
   const { error, data, isLoading } = useQuery({
-    queryKey: ["buyer-product", { page, searchText: props?.searchText }],
+    queryKey: [
+      "buyer-product",
+      { page, searchText, minPrice, maxPrice, category },
+    ],
     queryFn: () =>
-      getBuyerProduct({ page: page, limit: 8, searchText: props?.searchText }),
+      getBuyerProduct({
+        page: page,
+        limit: 8,
+        searchText: searchText || "",
+        minPrice: minPrice || 0,
+        maxPrice: maxPrice || 0,
+        category: category || [],
+      }),
   });
 
   // console.log(data);

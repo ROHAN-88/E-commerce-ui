@@ -8,10 +8,16 @@ import ProductDetail from "../components/product/Productdetail/ProductDetail";
 import Home from "../components/home/Home";
 import Editproduct from "../components/product/EditProduct/Editproduct";
 import Cart from "../components/cart/Cart";
+import AuthGuard from "../Gaurd/AuthGuard";
 const logInRoutes = [
   {
     path: "/",
-    element: <Mainlayout />,
+
+    element: (
+      <AuthGuard>
+        <Mainlayout />
+      </AuthGuard>
+    ),
     children: [
       {
         path: "home",

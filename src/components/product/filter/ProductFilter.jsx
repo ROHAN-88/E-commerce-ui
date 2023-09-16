@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { setFilter } from "../../../store/productSlice";
 
+import { useQuery } from "react-query";
 const productCategories = [
   "grocery",
   "kitchen",

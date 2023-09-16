@@ -6,7 +6,6 @@ import {
   Paper,
   Stack,
   TableContainer,
-  TableFooter,
   Typography,
 } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -15,48 +14,19 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import React from "react";
-import styled from "styled-components";
-import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 // import { getCartData, removeItemFromCart } from "../lib/apis/cart.api";
-// import { getRandomId } from "../utils/random.id.genreator";
+
 import { useDispatch } from "react-redux";
 
 import Loader from "../../Loader";
+import { getCartData, removeItemFromCart } from "../../lib/cart.api";
 import { openErrorSnackbar, openSucessSnackbar } from "../../store/customSlice";
-const rows = [
-  {
-    _id: 1,
-    name: "T-shirt",
-    price: 4000,
-    brand: "Peter England",
-    quantity: 100,
-    total: 400000,
-    image:
-      "https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg",
-  },
-  {
-    _id: 2,
-    name: "T-shirt",
-    price: 4000,
-    brand: "Peter England",
-    quantity: 100,
-    total: 400000,
-    image:
-      "https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg",
-  },
-  {
-    _id: 4,
-    name: "T-shirt",
-    price: 4000,
-    brand: "Peter England",
-    quantity: 100,
-    total: 400000,
-    image:
-      "https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg",
-  },
-];
+import { getRandomId } from "../../utils/random.id";
+
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -75,6 +45,7 @@ const Cart = () => {
   });
 
   const cartData = data?.data;
+  console.log(cartData);
 
   const { mutate, isLoading: removeCartLoading } = useMutation({
     mutationKey: ["removeCart"],
@@ -143,64 +114,74 @@ const Cart = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cartData?.map((item) => (
-                  <TableRow
-                    key={getRandomId()}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                    f
-                  >
-                    <StyledTableCell align="center">
-                      <img
-                        style={{
-                          height: "100px",
-                          width: "100px",
-                          objectFit: "cover",
-                        }}
-                        src="https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg"
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Typography variant="h6">{item?.name}</Typography>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Typography variant="h6"> {item?.company}</Typography>
-                    </StyledTableCell>
-
-                    <StyledTableCell align="center">
-                      <Typography variant="h6"> {item?.unitPrice}</Typography>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Stack direction="row">
-                        <Button>
-                          <AiOutlinePlus size={20} />
-                        </Button>
-                        <Typography variant="h6">
-                          {item?.orderQuantity}
-                        </Typography>
-
-                        <Button>
-                          <AiOutlineMinus size={20} />
-                        </Button>
-                      </Stack>
-                    </StyledTableCell>
-
-                    <StyledTableCell align="center">
-                      <Typography variant="h6"> {item?.totalPrice}</Typography>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Button
-                        sx={{ color: "red" }}
-                        onClick={() => {
-                          mutate(item?.productId);
+                {cartData?.map(
+                  (item) => (
+                    console.log(item),
+                    (
+                      <TableRow
+                        key={getRandomId()}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <AiOutlineDelete size={30} />
-                      </Button>
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
+                        <StyledTableCell align="center">
+                          <img
+                            style={{
+                              height: "100px",
+                              width: "100px",
+                              objectFit: "cover",
+                            }}
+                            src="https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg"
+                          />
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Typography variant="h6">{item?.name}</Typography>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Typography variant="h6"> {item?.company}</Typography>
+                        </StyledTableCell>
+
+                        <StyledTableCell align="center">
+                          <Typography variant="h6">
+                            {" "}
+                            {item?.unitPrice}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Stack direction="row">
+                            <Button>
+                              <AiOutlinePlus size={20} />
+                            </Button>
+                            <Typography variant="h6">
+                              {item?.orderQuantity}
+                            </Typography>
+
+                            <Button>
+                              <AiOutlineMinus size={20} />
+                            </Button>
+                          </Stack>
+                        </StyledTableCell>
+
+                        <StyledTableCell align="center">
+                          <Typography variant="h6">
+                            {" "}
+                            {item?.totalPrice}
+                          </Typography>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Button
+                            sx={{ color: "red" }}
+                            onClick={() => {
+                              mutate(item?.productId);
+                            }}
+                          >
+                            <AiOutlineDelete size={30} />
+                          </Button>
+                        </StyledTableCell>
+                      </TableRow>
+                    )
+                  )
+                )}
               </TableBody>
             </Table>
           </TableContainer>
