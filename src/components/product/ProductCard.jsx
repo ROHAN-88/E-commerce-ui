@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteSellerProduct } from "../../lib/product.api";
-import "./ProductCard.css";
+
 import Loader from "../../Loader";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
