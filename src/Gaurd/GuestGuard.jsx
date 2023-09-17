@@ -10,6 +10,9 @@ const GuestGuard = (props) => {
     if (isLoggedIn) {
       navigate("/home");
     }
+    if (!isLoggedIn && pathname === "/") {
+      navigate("/login", { replace: true });
+    }
   }, [isLoggedIn, navigate]);
 
   return props.children;
