@@ -1,8 +1,11 @@
 import axios from "axios";
 
 export const $axios = axios.create({
-  baseURL: "http://localhost:8000",
-  timeout: 1000,
+  baseURL:
+    import.meta.env.VITE_ENV === "local"
+      ? import.meta.env.VITE_API_LOCALHOST
+      : import.meta.env.VITE_API_PRODUCT,
+  timeout: 5000,
   //   headers: { "X-Custom-Header": "foobar" },
 });
 

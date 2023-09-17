@@ -1,9 +1,8 @@
-import MuiAlert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSnackbar } from "../../store/customSlice";
-import Alert from "@mui/material/Alert";
 
 const CustomSnack = () => {
   const SnackbarData = useSelector((state) => state.snackbar);
