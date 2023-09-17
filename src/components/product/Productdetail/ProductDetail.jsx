@@ -3,15 +3,19 @@ import Grid from "@mui/material/Grid";
 import React, { useState } from "react";
 import { GrAdd } from "react-icons/gr";
 import "./productDetail.css";
-import { Button, Typography } from "@mui/material";
+import { Button, Chip, Stack, Typography } from "@mui/material";
 import { AiOutlineMinus } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { productDetailQuires } from "../../../lib/product.api";
 import Loader from "../../../Loader";
 import { addItemToCart } from "../../../lib/cart.api";
+import { useDispatch } from "react-redux";
+import { openSucessSnackbar } from "../../../store/customSlice";
 
 const ProductDetail = () => {
+  //!dispatch
+  const dispatch = useDispatch();
   //!local storage get role
   const role = localStorage.getItem("role");
 
@@ -32,12 +36,19 @@ const ProductDetail = () => {
   });
 
   //!mutation
+  const queryClient = useQueryClient();
   const addItemToCartMutation = useMutation({
     mutationKey: ["add-item-to-cart"],
     mutationFn: () => addItemToCart({ productId, quantity: counter }),
+    onSuccess: () => {
+      dispatch(openSucessSnackbar("Item Addedto Cart"));
+
+      queryClient.invalidateQueries("cart-count");
+      navigate("/product");
+    },
   });
 
-  if (isLoading) {
+  if (isLoading || addItemToCartMutation.isLoading) {
     return <Loader />;
   }
   // console.log(data);
@@ -58,7 +69,7 @@ const ProductDetail = () => {
       </div>
       <Box className="product-card-detail-parent-div">
         <Grid container>
-          <Grid xs={6} sx={{ marginTop: "10rem" }}>
+          <Grid sx={{ marginTop: "10rem" }}>
             <img src="/img/Screenshot (177).png" alt="" />
           </Grid>
           <Grid>
@@ -76,7 +87,16 @@ const ProductDetail = () => {
                 {productData?.freeShipping === true ? "Yes" : "No"}
               </li>
               <li>Price :Rs.{productData?.price} </li>
-              <li>Quantity : {productData?.quantity} </li>
+              <li>
+                <Stack direction={"row"} sx={{ display: "flex", gap: "1rem" }}>
+                  Quantity : {productData?.quantity}
+                  {productData?.quantity >= 0 ? (
+                    <Chip label="In-Stock" color="success" />
+                  ) : (
+                    <Chip label="Out -OF-Stock" color="error" />
+                  )}
+                </Stack>
+              </li>
               <li>Category :{productData?.category}</li>
 
               {role === "buyer" && (

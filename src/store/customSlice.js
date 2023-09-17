@@ -10,13 +10,13 @@ export const snackbarSlice = createSlice({
   reducers: {
     openErrorSnackbar: (state, action) => {
       (state.open = true),
-        (state.severity = "warning"),
+        (state.severity = "error"),
         (state.message = action.payload);
     },
     openSucessSnackbar: (state, action) => {
       (state.open = true),
         (state.severity = "success"),
-        success((state.message = action.payload));
+        (state.message = action.payload);
     },
     closeSnackbar: (state, action) => {
       state.open = false;

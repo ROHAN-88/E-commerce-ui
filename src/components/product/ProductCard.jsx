@@ -49,12 +49,6 @@ const ProductCard = (props) => {
     // onError: {},
   });
 
-  //!mutation for addto cart
-  const addToCart = useMutation({
-    mutationKey: ["add-to-Cart"],
-    mutationFn: (values) => addItemToCart(values),
-  });
-
   if (deleteProduct.isLoading) {
     return <Loader />;
   }
@@ -125,6 +119,7 @@ const ProductCard = (props) => {
           <Button
             size="small"
             onClick={() => navigate(`/product/detail/${_id}`)}
+            variant="contained"
           >
             Expoler
           </Button>

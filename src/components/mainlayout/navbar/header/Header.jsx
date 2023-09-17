@@ -8,9 +8,18 @@ import { CiLogout } from "react-icons/ci";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "../header/scss/main.css";
+import { useQuery } from "react-query";
+import { cartTotalItem } from "../../../../lib/cart.api";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  //!query cart item  count
+  const { data } = useQuery({
+    queryKey: ["cart-count"],
+    queryFn: () => cartTotalItem(),
+  });
+  const CartItemCount = data?.data?.itemCount;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
@@ -32,7 +41,7 @@ const Header = () => {
         {/* {//Div1 - Logo  } */}
         <div className="logo">
           {/* <img src="#" alt="" /> */}
-          <h2>LOGO</h2>
+          <h2>Nepal-Mart</h2>
         </div>
         {/* //DIV2 - Link */}
         <div className="nav-link">
@@ -71,7 +80,7 @@ const Header = () => {
             }}
             onClick={() => navigate("/cart")}
           >
-            <Badge badgeContent={5} color="primary">
+            <Badge badgeContent={CartItemCount} color="primary">
               <FaShoppingCart />
             </Badge>
           </div>
@@ -99,7 +108,7 @@ const Header = () => {
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "flex-end",
+                    // justifyContent: "flex-end",
                     gap: "1rem",
                   }}
                 >

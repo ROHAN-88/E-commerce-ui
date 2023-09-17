@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { getBuyerProduct } from "../../../lib/product.api";
 import ProductCard from "../ProductCard";
 import { useSelector } from "react-redux";
+import NoItemFound from "../../noItemFound/NoItemFound";
 const BuyerProduct = (props) => {
   // const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -36,37 +37,43 @@ const BuyerProduct = (props) => {
   // console.log(data);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "1rem",
-        justifyContent: "center",
-        marginTop: "2rem",
-      }}
-    >
-      {data?.data?.map((item, index, self) => {
-        // console.log(item);
-        return <ProductCard key={index} {...item} />;
-      })}
+    <>
+      {data?.data?.length === 0 ? (
+        <NoItemFound message="Product Not Found" />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            justifyContent: "center",
+            marginTop: "2rem",
+          }}
+        >
+          {data?.data?.map((item, index, self) => {
+            // console.log(item);
+            return <ProductCard key={index} {...item} />;
+          })}
 
-      <div
-        style={{
-          // border: "1px red solid",
-          width: "100%",
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Pagination
-          page={page}
-          count={10}
-          color="secondary"
-          variant="outline"
-          onChange={getPaginationData}
-        />
-      </div>
-    </div>
+          <div
+            style={{
+              // border: "1px red solid",
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Pagination
+              page={page}
+              count={10}
+              color="secondary"
+              variant="outline"
+              onChange={getPaginationData}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
