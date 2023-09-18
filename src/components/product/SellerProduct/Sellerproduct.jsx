@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../Loader";
-import { getSellerProduct } from "../../../lib/product.api";
 // import SellerCard from "./SellerCard";
 import ProductCard from "../ProductCard";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { getSellerProduct } from "../../../lib/product.api";
 
 const Sellerproduct = () => {
   const { searchText } = useSelector((state) => state.product);
@@ -23,14 +23,13 @@ const Sellerproduct = () => {
   };
   //query
   const { error, data, isLoading } = useQuery({
-    queryKey: [
-      "seller-product",
-      { page, searchText: searchText || " ", isDeleted: selector.isDeleted },
-    ],
+    queryKey: ["seller-product", { page, searchText: searchText }],
     queryFn: () =>
-      getSellerProduct({ page: page, limit: 8, searchText: searchText || " " }),
+      getSellerProduct({ page: page, limit: 8, searchText: searchText }),
   });
 
+  console.log(data);
+  console.log(data);
   if (isLoading) {
     return <Loader />;
   }
@@ -64,7 +63,7 @@ const Sellerproduct = () => {
         }}
       >
         {data?.data?.map((item, index) => {
-          return <ProductCard key={index} {...item} />;
+          return <ProductCard key={item._id} {...item} />;
         })}
       </div>
 

@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import { cartTotalItem } from "../../../../lib/cart.api";
 
 const Header = () => {
+  const userRole = localStorage.getItem("role");
   const navigate = useNavigate();
 
   //!query cart item  count
@@ -73,17 +74,22 @@ const Header = () => {
             gap: "1rem",
           }}
         >
-          <div
-            style={{
-              fontSize: "28px",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/cart")}
-          >
-            <Badge badgeContent={CartItemCount} color="primary">
-              <FaShoppingCart />
-            </Badge>
-          </div>
+          {userRole === "seller" ? (
+            " "
+          ) : (
+            <div
+              style={{
+                fontSize: "28px",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/cart")}
+            >
+              <Badge badgeContent={CartItemCount} color="primary">
+                <FaShoppingCart />
+              </Badge>
+            </div>
+          )}
+
           <div>
             <Stack direction="row" spacing={2}>
               <Avatar>R</Avatar>

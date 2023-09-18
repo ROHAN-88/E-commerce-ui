@@ -52,6 +52,9 @@ const Login = () => {
   }
   return (
     <>
+      {" "}
+      <h4>buyer:therohan@gmail.com || seller:rohan@gmail.com</h4>
+      <h4>passsword for buyer: 4@hermesK || for seller: 0@12ijoiWjf</h4>
       <div className="log-body">
         <Formik
           initialValues={{ email: "", password: "" }}

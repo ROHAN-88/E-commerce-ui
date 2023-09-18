@@ -24,7 +24,6 @@ const ProductCard = (props) => {
   //!get role from local storage
   const userRole = localStorage.getItem("role");
 
-  const queryClient = useQueryClient();
   //!popover
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
@@ -37,11 +36,12 @@ const ProductCard = (props) => {
   const id = open ? "simple-popover" : undefined;
 
   //!mutation
+  const queryClient = useQueryClient();
   const deleteProduct = useMutation({
     mutationKey: ["delete-product"],
     mutationFn: () => deleteSellerProduct(_id),
     onSuccess: () => {
-      // queryClient.invalidateQueries("seller-product");
+      queryClient.invalidateQueries("seller-product");
       dispatch(setIsProductDeleted());
       //todo error fix: not reloading when product deleted
       //error fixed with browser change
