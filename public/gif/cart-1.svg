@@ -1,0 +1,13 @@
+<svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;"><style>
+     .line-cart1 {animation:line-cart1-arrow 1s infinite;}
+     @keyframes line-cart1-arrow {
+         0%{transform: translate3d(0, -4px, 0);}
+         50%{transform: translate3d(0, 0, 0);}
+         100%{transform: translate3d(0, -4px, 0);}
+     }
+     @media (prefers-reduced-motion: reduce) {
+         .line-cart1 {
+             animation: none;
+         }
+     }
+    </style><path class="stroke1" d="M7 9.7793H21.027L22.9752 23.8063M70.9009 23.8063H93.5L84.9279 65.8874H28.8198L22.9752 23.8063M22.9752 23.8063H42.8468" stroke="#000" stroke-width="5px" style="animation-duration: 1s;"></path><path class="line-cart1 stroke2" d="M56.8739 9V50.3018M56.8739 50.3018L45.1847 38.6126M56.8739 50.3018L68.5631 38.6126" stroke="#000" stroke-width="4px" stroke-linecap="round" style="animation-duration: 1s;"></path><circle class="stroke1 fill1" cx="32.7162" cy="82.1487" r="8.57207" fill="#fff" stroke="#000" stroke-width="2.5px" style="animation-duration: 1s;"></circle><circle class="stroke1 fill1" cx="84.1486" cy="82.1487" r="8.57207" fill="#fff" stroke="#000" stroke-width="2.5px" style="animation-duration: 1s;"></circle></svg>

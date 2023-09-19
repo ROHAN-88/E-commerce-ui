@@ -136,13 +136,17 @@ const ProductDetail = () => {
                   </Grid>
                   <Grid item>
                     <Button
+                      style={{
+                        display: "flex",
+                        gap: "0.8rem",
+                      }}
                       variant="contained"
                       size="large"
                       onClick={() => {
                         addItemToCartMutation.mutate();
                       }}
                     >
-                      Add to cart
+                      Add to cart <img src="/gif/cart-1.svg" />
                     </Button>
                   </Grid>
                 </>
