@@ -28,8 +28,6 @@ const Sellerproduct = () => {
       getSellerProduct({ page: page, limit: 8, searchText: searchText }),
   });
 
-  console.log(data);
-  console.log(data);
   if (isLoading) {
     return <Loader />;
   }

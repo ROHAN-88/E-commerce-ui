@@ -7,6 +7,7 @@ import logInRoutes from "./Routes/LogedIn";
 import store from "./store/index";
 import { Provider } from "react-redux";
 import "./index.css";
+
 const queryClient = new QueryClient();
 
 const applicationRoutes = [...Guestrouter, ...logInRoutes];

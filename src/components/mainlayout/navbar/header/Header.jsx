@@ -9,6 +9,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "../header/scss/main.css";
 import { useQuery } from "react-query";
+
 import { cartTotalItem } from "../../../../lib/cart.api";
 
 const Header = () => {
@@ -16,6 +17,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   //!query cart item  count
+
   const { data } = useQuery({
     queryKey: ["cart-count"],
     queryFn: () => cartTotalItem(),
@@ -74,6 +76,7 @@ const Header = () => {
             gap: "1rem",
           }}
         >
+          {/* change in role ====================== */}
           {userRole === "seller" ? (
             " "
           ) : (

@@ -73,6 +73,7 @@ const ProductForm = () => {
             company: "",
             price: 0,
             category: "",
+            description: "",
             freeShipping: false,
             quantity: 0,
           }}
@@ -81,6 +82,9 @@ const ProductForm = () => {
               .min(2, "Must be atleast 2 character")
               .max(55, "Must be 55 characters or less")
               .required("Required"),
+            description: Yup.string()
+              .min(10, "It should be aleat 10")
+              .max(3000, "It can't be over 1000 word"),
             company: Yup.string()
               .min(2, "Must be at least 2 character")
               .max(55, "Must be 55 characters or less")
@@ -162,7 +166,6 @@ const ProductForm = () => {
                     name="price"
                     type="number"
                     {...formik.getFieldProps("price")}
-                    id="outlined-adornment-amount"
                     startAdornment={
                       <InputAdornment position="start">$</InputAdornment>
                     }
@@ -215,18 +218,31 @@ const ProductForm = () => {
 
               <div className="product-form-input">
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel>Amount</InputLabel>
+                  <InputLabel>Quantity</InputLabel>
                   <OutlinedInput
                     name="quantity"
                     type="number"
                     {...formik.getFieldProps("quantity")}
                     id="outlined-adornment-amount"
-                    label="Amount"
+                    label="Quantu=ity"
                   />
                 </FormControl>
 
                 {formik.touched.price && formik.errors.price ? (
                   <div>{formik.errors.price}</div>
+                ) : null}
+              </div>
+              {/* description  */}
+              <div className="product-form-input">
+                <TextField
+                  name="description"
+                  label="Description"
+                  {...formik.getFieldProps("description")}
+                  multiline
+                  rows={4}
+                />
+                {formik.touched.description && formik.errors.description ? (
+                  <div>{formik.errors.description}</div>
                 ) : null}
               </div>
               {/*check box  */}

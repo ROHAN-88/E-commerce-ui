@@ -8,7 +8,7 @@ const CustomSnack = () => {
   const SnackbarData = useSelector((state) => state.snackbar);
   const dispatch = useDispatch();
 
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -23,8 +23,8 @@ const CustomSnack = () => {
     >
       <Alert
         onClose={handleClose}
-        severity={SnackbarData.severity}
-        sx={{ width: "100%" }}
+        // severity={SnackbarData.severity}
+        // sx={{ width: "100%" }}
       >
         {SnackbarData.message}
       </Alert>

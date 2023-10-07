@@ -76,12 +76,7 @@ const ProductDetail = () => {
             <ul className="product-detail-ul">
               <li>Name: {productData?.name}</li>
               <li>Company: {productData?.company} </li>
-              <li>
-                Desciption: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Dolorem distinctio ipsam voluptate amet, iste recusandae,
-                doloribus repudiandae nisi eligendi quos accusantium, corrupti
-                natus esse. Et fugit cum eius iusto magnam.
-              </li>
+              <li>Desciption: {productData?.description}</li>
               <li>
                 FreeShipping :
                 {productData?.freeShipping === true ? "Yes" : "No"}
