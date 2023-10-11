@@ -93,9 +93,13 @@ const ProductCard = (props) => {
         sx={{
           // minWidth: 345,
           width: "342px",
-          height: "510px",
+
+          minHeight: "510px",
           borderRadius: "10px",
           padding: "1rem 1rem 0.2rem 1rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
         }}
         className="product-card-hover"
       >
