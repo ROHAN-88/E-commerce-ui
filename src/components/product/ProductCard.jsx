@@ -91,7 +91,8 @@ const ProductCard = (props) => {
       </Popover>
       <Card
         sx={{
-          maxWidth: 345,
+          // minWidth: 345,
+          width: "342px",
           borderRadius: "10px",
           padding: "1rem 1rem 0.2rem 1rem",
         }}
