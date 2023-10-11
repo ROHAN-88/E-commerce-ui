@@ -25,7 +25,7 @@ const Sellerproduct = () => {
   const { error, data, isLoading } = useQuery({
     queryKey: ["seller-product", { page, searchText: searchText }],
     queryFn: () =>
-      getSellerProduct({ page: page, limit: 8, searchText: searchText }),
+      getSellerProduct({ page: page, limit: 9, searchText: searchText }),
   });
 
   if (isLoading) {

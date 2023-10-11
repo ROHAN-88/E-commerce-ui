@@ -26,7 +26,7 @@ const BuyerProduct = (props) => {
     queryFn: () =>
       getBuyerProduct({
         page: page,
-        limit: 8,
+        limit: 9,
         searchText: searchText || "",
         minPrice: minPrice || 0,
         maxPrice: maxPrice || 0,
