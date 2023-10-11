@@ -74,6 +74,7 @@ const ProductDetail = () => {
               src={productData?.imageUrl}
               alt=""
               style={{
+                width: "500px",
                 height: "500px",
                 objectFit: "cover",
               }}
