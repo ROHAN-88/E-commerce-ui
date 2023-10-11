@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getBuyerProduct } from "../../../lib/product.api";
 import ProductCard from "../ProductCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NoItemFound from "../../noItemFound/NoItemFound";
 const BuyerProduct = (props) => {
   // const [products, setProducts] = useState([]);
@@ -17,7 +17,7 @@ const BuyerProduct = (props) => {
     (state) => state.product
   );
   //!Query
-
+  const dispatch = useDispatch();
   const { error, data, isLoading } = useQuery({
     queryKey: [
       "buyer-product",
@@ -32,6 +32,13 @@ const BuyerProduct = (props) => {
         maxPrice: maxPrice || 0,
         category: category || [],
       }),
+    onError: (error) => {
+      dispatch(
+        openErrorSnackbar(
+          error?.response?.data?.message || "Products cannot be fetched."
+        )
+      );
+    },
   });
 
   // console.log(data);
@@ -50,8 +57,7 @@ const BuyerProduct = (props) => {
             marginTop: "2rem",
           }}
         >
-          {data?.data?.map((item, index, self) => {
-            // console.log(item);
+          {data?.data?.product?.map((item, index, self) => {
             return <ProductCard key={index} {...item} />;
           })}
 
@@ -61,11 +67,13 @@ const BuyerProduct = (props) => {
               width: "100%",
               display: "flex",
               justifyContent: "flex-end",
+              marginBottom: "1rem",
             }}
           >
             <Pagination
               page={page}
-              count={10}
+              // count={data?.data.totalPage}
+              count={data?.data?.totalPage}
               color="secondary"
               variant="outline"
               onChange={getPaginationData}

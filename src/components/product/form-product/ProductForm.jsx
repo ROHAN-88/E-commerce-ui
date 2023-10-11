@@ -287,7 +287,9 @@ const ProductForm = () => {
                   {...formik.getFieldProps("freeShipping")}
                 />
               </div>
-              <button type="submit">Submit</button>
+              <button type="submit" disabled={addProductMutaion.isLoading}>
+                Submit
+              </button>
             </form>
           )}
         </Formik>
