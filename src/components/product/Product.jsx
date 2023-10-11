@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-import Sellerproduct from "./SellerProduct/Sellerproduct";
-import BuyerProduct from "./Buyer-product/BuyerProduct";
+import React from "react";
 import { Box, Grid, TextField } from "@mui/material";
-import ProductFilter from "./filter/ProductFilter";
 import { useDispatch } from "react-redux";
 import { setSearchText } from "../../store/productSlice";
+import BuyerProduct from "./Buyer-product/BuyerProduct";
+import Sellerproduct from "./SellerProduct/Sellerproduct";
+import ProductFilter from "./filter/ProductFilter";
 const Product = () => {
   const userRole = localStorage.getItem("role");
 

@@ -54,7 +54,7 @@ const Cart = () => {
   const cartData = data?.data;
 
   //!mutaion
-  const { mutate, isLoading: removeCartLoading } = useMutation({
+  const { mutate: deletemutaion, isLoading: removeCartLoading } = useMutation({
     mutationKey: ["removeCart"],
     mutationFn: (id) => removeItemFromCart(id),
     onSuccess: (res) => {
@@ -152,7 +152,7 @@ const Cart = () => {
                             width: "100px",
                             objectFit: "cover",
                           }}
-                          src="https://www.stoneycreekhunting.co.nz/image/cache/catalog/product_images/corporate/mens/shirts/Mens_Corporate_Shirt_Long_Sleeve_Float_Navy-875x1000.jpg"
+                          src={item?.imageUrl}
                         />
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -202,7 +202,7 @@ const Cart = () => {
                         <Button
                           sx={{ color: "red" }}
                           onClick={() => {
-                            mutate(item?.productId);
+                            deletemutaion(item?.productId);
                           }}
                         >
                           <AiOutlineDelete size={30} />

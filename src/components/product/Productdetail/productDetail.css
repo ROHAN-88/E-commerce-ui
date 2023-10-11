@@ -3,9 +3,12 @@
   /* border: 1px black solid; */
   border-radius: 30px;
   padding: 0rem 2rem 0rem 5rem;
-  backdrop-filter: blur(7px);
-  background: rgba(255, 255, 255, 0.5);
-  font-family: "sans-serif";
+
+  background: rgba(255, 255, 255);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .product-card-detail-parent-div:hover {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

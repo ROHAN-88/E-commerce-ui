@@ -1,4 +1,11 @@
-import { Checkbox, TextField } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Stack,
+  TextField,
+  Button,
+  TextareaAutosize,
+} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
@@ -6,20 +13,34 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import Loader from "../../../Loader";
 import * as Yup from "yup";
-import { editProductQuery } from "../../../lib/product.api";
+import {
+  editProductQuery,
+  productDetailQuires,
+} from "../../../lib/product.api";
 import { useDispatch } from "react-redux";
 import {
   openErrorSnackbar,
   openSucessSnackbar,
 } from "../../../store/customSlice";
+import axios from "axios";
 // import "./product-form.css";
 
 const Editproduct = () => {
+  // const [imageLoading, setImageLoading] = useState(false);
+  //!image placeholder
+  const placeHolderImage =
+    "https://res.cloudinary.com/diwtmwthg/image/upload/v1696927991/jfdb2hlrw0f8iwa2uidy.jpg";
+
+  //!creating localurl for image
+  const [loaclUrl, setlocalUrl] = useState(null);
+
+  //!hosting image in a server like cloudinary
+  const [productImages, setProductImages] = useState(null);
   //!calling dispatch
   const dispatch = useDispatch();
 
@@ -31,14 +52,15 @@ const Editproduct = () => {
   const navigate = useNavigate();
 
   //!api hit with query
-  const { isError, isLoading, data } = useQuery({
+  const {
+    isError,
+    isLoading: productDetailLoading,
+    data,
+  } = useQuery({
     queryKey: "product-detail",
     queryFn: () => productDetailQuires(productId),
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
   const productData = data?.data;
 
   //!mutation
@@ -47,15 +69,15 @@ const Editproduct = () => {
     mutationFn: (values) => editProductQuery(productId, values),
     onSuccess: () => {
       dispatch(openSucessSnackbar("Edited Sucessfully"));
-      navigate(`/product/detail/${productId}`)
+      navigate(`/product/detail/${productId}`);
     },
     onError: (error) => {
-      //   console.log(error);
+      // console.log(error);
       dispatch(openErrorSnackbar("something went wrong"));
     },
   });
 
-  if (editProduct.isLoading) {
+  if (editProduct.isLoading || productDetailLoading) {
     return <Loader />;
   }
 
@@ -83,18 +105,22 @@ const Editproduct = () => {
           marginRight: "2rem",
         }}
       >
-        <button onClick={() => navigate("/product")}>Back to product</button>
+        <Button onClick={() => navigate("/product")} variant="contained">
+          Back to product
+        </Button>
       </div>
       <div className="product-form-div">
         <Formik
           enableReinitialize
           initialValues={{
-            name: productData?.name,
-            company: productData?.company,
-            price: productData?.price,
+            imageUrl: productData?.imageUrl,
+            name: productData?.name || " ",
+            company: productData?.company || " ",
+            price: productData?.price || 0,
             category: productData?.category || "",
-            freeShipping: productData?.freeShipping,
-            quantity: productData?.quantity,
+            freeShipping: productData?.freeShipping || false,
+            description: productData?.description || " ",
+            quantity: productData?.quantity || 0,
           }}
           validationSchema={Yup.object({
             name: Yup.string()
@@ -109,6 +135,10 @@ const Editproduct = () => {
             price: Yup.number().min(1).required("Price Required"),
 
             quantity: Yup.number().required("Quantity required"),
+            description: Yup.string()
+              .min(10, "It should be aleat 10")
+              .max(1000, "It can't be over 1000 word")
+              .required("Description is required"),
             //   color:Yup.
             category: Yup.string()
               .trim()
@@ -117,7 +147,34 @@ const Editproduct = () => {
 
             freeShipping: Yup.boolean(),
           })}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
+            let imageUrl = "";
+            if (productImages) {
+              const cloudName = "diwtmwthg";
+              // creates form data object
+              const data = new FormData();
+              data.append("file", productImages);
+              data.append("upload_preset", "hermes-mart");
+              data.append("cloud_name", cloudName);
+
+              try {
+                // setImageLoading(true);
+                const res = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                  data
+                );
+
+                imageUrl = res.data.secure_url;
+                // setImageLoading(false);
+              } catch (error) {
+                // setImageLoading(false);
+                dispatch(openErrorSnackbar("Image upload failed."));
+              }
+            }
+
+            if (imageUrl) {
+              values.imageUrl = imageUrl;
+            }
             editProduct.mutate(values);
           }}
         >
@@ -126,22 +183,6 @@ const Editproduct = () => {
               onSubmit={formik.handleSubmit}
               className="product-form-parent"
             >
-              <div className="nav">
-                <div>
-                  <h2
-                    style={{
-                      color: "#FFE5E5",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Welcome to <br></br> Hermes
-                  </h2>
-                </div>
-
-                <div>
-                  <h2> LOGO</h2>
-                </div>
-              </div>
               <h2
                 style={{
                   color: " #040D12",
@@ -149,6 +190,31 @@ const Editproduct = () => {
               >
                 Product Detail
               </h2>
+
+              <img
+                src={loaclUrl || productData?.imageUrl || placeHolderImage}
+                width={"100%"}
+                style={{ objectFit: "cover" }}
+              />
+
+              <Box sx={{ marginBottom: "1rem" }}>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <Button variant="outlined" component="label">
+                    Upload Image
+                    <input
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      onChange={(event) => {
+                        const productImage = event.target.files[0];
+                        setlocalUrl(URL.createObjectURL(productImage));
+                        setProductImages(productImage);
+                      }}
+                    />
+                  </Button>
+                </Stack>
+              </Box>
               {/* name  */}
               <div className="product-form-input">
                 <TextField
@@ -176,7 +242,7 @@ const Editproduct = () => {
               {/* {console.log(formik.values)} */}
               {/* price  */}
               <div className="product-form-input">
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <FormControl>
                   <InputLabel>Amount</InputLabel>
                   <OutlinedInput
                     name="price"
@@ -232,9 +298,8 @@ const Editproduct = () => {
                 ) : null}
               </div>
               {/* Quantity */}
-
               <div className="product-form-input">
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <FormControl>
                   <InputLabel>Amount</InputLabel>
                   <OutlinedInput
                     name="quantity"
@@ -249,6 +314,21 @@ const Editproduct = () => {
                   <div>{formik.errors.price}</div>
                 ) : null}
               </div>
+              {/* description  */}
+              <div className="product-form-input">
+                <TextareaAutosize
+                  placeholder="Description for Product"
+                  name="description"
+                  minRows={8}
+                  style={{ width: "100%" }}
+                  {...formik.getFieldProps("description")}
+                />
+
+                {formik.touched.description && formik.errors.description ? (
+                  <div>{formik.errors.description}</div>
+                ) : null}
+              </div>
+
               {/*check box  */}
               <div>
                 <h5>Free Shipping</h5>

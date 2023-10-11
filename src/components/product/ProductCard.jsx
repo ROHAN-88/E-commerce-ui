@@ -7,19 +7,20 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { deleteSellerProduct } from "../../lib/product.api";
-
-import Loader from "../../Loader";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader";
+import { deleteSellerProduct } from "../../lib/product.api";
 import { setIsProductDeleted } from "../../store/productSlice";
-import { addItemToCart } from "../../lib/cart.api";
+import "../product/Productcard.css";
 
 const ProductCard = (props) => {
+  /*  */
   const navigate = useNavigate();
   const dispatch = useDispatch();
   //!props
-  const { _id, color, category, company, price, name, description } = props;
+  const { _id, color, category, company, price, name, description, imageUrl } =
+    props;
 
   //!get role from local storage
   const userRole = localStorage.getItem("role");
@@ -88,12 +89,19 @@ const ProductCard = (props) => {
           </div>
         </div>
       </Popover>
-      <Card sx={{ maxWidth: 345, borderRadius: "10px", height: 345 }}>
+      <Card
+        sx={{
+          maxWidth: 345,
+          borderRadius: "10px",
+          padding: "1rem 1rem 0.2rem 1rem",
+        }}
+        className="product-card-hover"
+      >
         <CardMedia
           component="img"
           alt="green iguana"
-          height="140"
-          image="/img//Screenshot (166).png"
+          height="300px"
+          image={imageUrl}
         />
         <CardContent>
           <div>

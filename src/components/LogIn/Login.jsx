@@ -41,8 +41,8 @@ const Login = () => {
       dispatch(openSucessSnackbar("Welcome"));
     },
     onError: (error) => {
-      console.log(error?.response?.data);
-      console.log("error");
+      // console.log(error?.response?.data);
+      // console.log("error");
       dispatch(openErrorSnackbar("something went wrong"));
     },
   });

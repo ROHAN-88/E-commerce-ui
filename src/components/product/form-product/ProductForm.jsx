@@ -1,4 +1,4 @@
-import { Checkbox, TextField } from "@mui/material";
+import { Box, Button, Checkbox, Stack, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
@@ -6,21 +6,29 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import { Formik } from "formik";
-import React from "react";
-import { $axios } from "../../../lib/axios";
-import * as Yup from "yup";
-import "./product-form.css";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
-import { addProductQuery } from "../../../lib/product.api";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { addProductQuery } from "../../../lib/product.api";
 import {
   openErrorSnackbar,
   openSucessSnackbar,
 } from "../../../store/customSlice";
+import "./product-form.css";
+
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import axios from "axios";
 
 const ProductForm = () => {
   const navigate = useNavigate();
+
+  //!creating localurl for image
+  const [loaclUrl, setlocalUrl] = useState(null);
+
+  //!hosting image in a server like cloudinary
+  const [productImages, setProductImages] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -39,7 +47,7 @@ const ProductForm = () => {
       );
     },
   });
-  console.log(addProductMutaion);
+  // console.log(addProductMutaion);
 
   const category = [
     "grocery",
@@ -64,7 +72,9 @@ const ProductForm = () => {
           marginRight: "2rem",
         }}
       >
-        <button onClick={() => navigate("/product")}>Back to product</button>
+        <Button onClick={() => navigate("/product")} variant="contained">
+          Back to product
+        </Button>
       </div>
       <div className="product-form-div">
         <Formik
@@ -84,7 +94,7 @@ const ProductForm = () => {
               .required("Required"),
             description: Yup.string()
               .min(10, "It should be aleat 10")
-              .max(3000, "It can't be over 1000 word"),
+              .max(1000, "It can't be over 1000 word"),
             company: Yup.string()
               .min(2, "Must be at least 2 character")
               .max(55, "Must be 55 characters or less")
@@ -102,6 +112,28 @@ const ProductForm = () => {
             freeShipping: Yup.boolean(),
           })}
           onSubmit={async (values) => {
+            let imageUrl = "";
+            if (productImages) {
+              const cloudName = "diwtmwthg";
+              // creates form data object
+              const data = new FormData();
+              data.append("file", productImages);
+              data.append("upload_preset", "hermes-mart");
+              data.append("cloud_name", cloudName);
+
+              try {
+                const res = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                  data
+                );
+
+                imageUrl = res.data.secure_url;
+              } catch (error) {
+                dispatch(openErrorSnackbar("Image upload failed."));
+              }
+            }
+
+            values.imageUrl = imageUrl;
             addProductMutaion.mutate(values);
           }}
         >
@@ -110,30 +142,41 @@ const ProductForm = () => {
               onSubmit={formik.handleSubmit}
               className="product-form-parent"
             >
-              <div className="nav">
-                <div>
-                  <h2
-                    style={{
-                      color: "#FFE5E5",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Welcome to <br></br> Hermes
-                  </h2>
-                </div>
-
-                <div>
-                  <h2> LOGO</h2>
-                </div>
-              </div>
               <h2
                 style={{
-                  color: " #040D12",
+                  color: "#1B6B93",
                 }}
               >
                 Product Detail
               </h2>
-              {/* name  */}
+              {/* image ===============  */}
+              {loaclUrl && (
+                <img
+                  src={loaclUrl}
+                  width={350}
+                  height={250}
+                  style={{ objectFit: "cover" }}
+                />
+              )}
+              <Box sx={{ marginBottom: "1rem" }}>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <Button variant="outlined" component="label">
+                    Upload Image
+                    <input
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      onChange={(event) => {
+                        const productImage = event.target.files[0];
+                        setlocalUrl(URL.createObjectURL(productImage));
+                        setProductImages(productImage);
+                      }}
+                    />
+                  </Button>
+                </Stack>
+              </Box>
+              {/* name ============== */}
               <div className="product-form-input">
                 <TextField
                   name="name"
@@ -144,7 +187,6 @@ const ProductForm = () => {
                   <div>{formik.errors.name}</div>
                 ) : null}
               </div>
-
               {/* //company  */}
               <div className="product-form-input">
                 <TextField
@@ -157,10 +199,9 @@ const ProductForm = () => {
                   <div>{formik.errors.company}</div>
                 ) : null}
               </div>
-              {/* {console.log(formik.values)} */}
               {/* price  */}
               <div className="product-form-input">
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <FormControl>
                   <InputLabel>Amount</InputLabel>
                   <OutlinedInput
                     name="price"
@@ -177,8 +218,7 @@ const ProductForm = () => {
                   <div>{formik.errors.price}</div>
                 ) : null}
               </div>
-              {/*//!color  */}
-
+              {/*//!color picker of the product */}
               {/* //! */}
               {/* //category */}
               <div className="product-form-input">
@@ -190,15 +230,9 @@ const ProductForm = () => {
                     name="category"
                     label="Category"
                     {...formik.getFieldProps("category")}
-                    // ! not use full
-                    // labelId="demo-simple-select-label"
-                    // id="demo-simple-select"
-                    // value={categorys}
-                    //
                     style={{
                       background: "#f3fde8",
                     }}
-                    // onChange={handleChange}
                   >
                     {category.map((item, index, self) => {
                       return (
@@ -215,9 +249,8 @@ const ProductForm = () => {
                 ) : null}
               </div>
               {/* Quantity */}
-
               <div className="product-form-input">
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <FormControl>
                   <InputLabel>Quantity</InputLabel>
                   <OutlinedInput
                     name="quantity"
@@ -234,12 +267,13 @@ const ProductForm = () => {
               </div>
               {/* description  */}
               <div className="product-form-input">
-                <TextField
+                <TextareaAutosize
+                  placeholder="Description for Product"
                   name="description"
-                  label="Description"
+                  // maxRows={}
+                  minRows={8}
+                  style={{ width: "100%" }}
                   {...formik.getFieldProps("description")}
-                  multiline
-                  rows={4}
                 />
                 {formik.touched.description && formik.errors.description ? (
                   <div>{formik.errors.description}</div>
@@ -249,15 +283,10 @@ const ProductForm = () => {
               <div>
                 <h5>Free Shipping</h5>
                 <Checkbox
-                  // checked={checked}
-                  // onChange={handleChange}
                   name="freeShipping"
                   {...formik.getFieldProps("freeShipping")}
-                  // inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
-              {/* {console.log(formik.values)} */}
-
               <button type="submit">Submit</button>
             </form>
           )}

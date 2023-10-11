@@ -28,7 +28,7 @@ const Signup = () => {
       navigate("/login");
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
       dispatch(openErrorSnackbar(error?.response?.data + "hello"));
     },
   });

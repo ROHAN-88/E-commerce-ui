@@ -67,12 +67,19 @@ const ProductDetail = () => {
           Back to product
         </Button>
       </div>
-      <Box className="product-card-detail-parent-div">
-        <Grid container>
-          <Grid sx={{ marginTop: "10rem" }}>
-            <img src="/img/Screenshot (177).png" alt="" />
-          </Grid>
-          <Grid>
+      <Box>
+        <div className="product-card-detail-parent-div">
+          <div sx={{ marginTop: "10rem" }}>
+            <img
+              src={productData?.imageUrl}
+              alt=""
+              style={{
+                height: "500px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+          <div>
             <ul className="product-detail-ul">
               <li>Name: {productData?.name}</li>
               <li>Company: {productData?.company} </li>
@@ -156,8 +163,8 @@ const ProductDetail = () => {
                 </Button>
               )}
             </ul>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </Box>
     </>
   );
