@@ -93,6 +93,7 @@ const ProductCard = (props) => {
         sx={{
           // minWidth: 345,
           width: "342px",
+          height: "510px",
           borderRadius: "10px",
           padding: "1rem 1rem 0.2rem 1rem",
         }}
@@ -102,6 +103,7 @@ const ProductCard = (props) => {
           component="img"
           alt="green iguana"
           height="300px"
+          width="300px"
           style={{ objectFit: "contain" }}
           image={imageUrl}
         />
