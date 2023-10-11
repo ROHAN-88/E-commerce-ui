@@ -76,7 +76,7 @@ const ProductDetail = () => {
               style={{
                 width: "500px",
                 height: "500px",
-                objectFit: "cover",
+                objectFit: "contain",
               }}
             />
           </div>

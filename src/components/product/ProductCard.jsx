@@ -102,6 +102,7 @@ const ProductCard = (props) => {
           component="img"
           alt="green iguana"
           height="300px"
+          style={{ objectFit: "contain" }}
           image={imageUrl}
         />
         <CardContent>
