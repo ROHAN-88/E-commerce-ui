@@ -6,12 +6,14 @@ const About = () => {
     {
       img: "/E-commerce/public/img",
       name: "Rohan Shrestha",
-      description: "Hello I the designer and the creatorof this website.",
+      description:
+        "Hello I the designer and the creator of this website.I have written code and design this website.",
     },
     {
       img: "/E-commerce/public/img",
       name: "Hamsy Shrestha",
-      description: "Hello I the designer and the creatorof this website.",
+      description:
+        "Hello I am the Biggest contributor of this website.I have Added more than 30+ Product.",
     },
   ];
 
@@ -33,7 +35,9 @@ const About = () => {
           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>Our Missison</h1>
+        <h1 style={{ textAlign: "center", textDecoration: "underline" }}>
+          Our Missison
+        </h1>
 
         <p style={{ textAlign: "center", fontSize: "20px" }}>
           At the heart of our mission is a commitment to catalyzing positive
