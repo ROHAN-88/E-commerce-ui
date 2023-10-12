@@ -1,3 +1,4 @@
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Box, Button, Checkbox, Stack, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -5,21 +6,20 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
+import axios from "axios";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import Loader from "../../../Loader";
 import { addProductQuery } from "../../../lib/product.api";
 import {
   openErrorSnackbar,
   openSucessSnackbar,
 } from "../../../store/customSlice";
 import "./product-form.css";
-
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import axios from "axios";
 
 const ProductForm = () => {
   const navigate = useNavigate();
@@ -49,6 +49,9 @@ const ProductForm = () => {
   });
   // console.log(addProductMutaion);
 
+  if (addProductMutaion.isLoading) {
+    <Loader />;
+  }
   const category = [
     "grocery",
     "kitchen",
