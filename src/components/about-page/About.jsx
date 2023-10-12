@@ -36,7 +36,7 @@ const About = () => {
         }}
       >
         <h1 style={{ textAlign: "center", textDecoration: "underline" }}>
-          Our Missison
+          Our Mission
         </h1>
 
         <p style={{ textAlign: "center", fontSize: "20px" }}>
