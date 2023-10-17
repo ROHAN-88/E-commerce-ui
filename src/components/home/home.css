@@ -2,6 +2,59 @@
   margin: 2rem 4rem 1rem 4rem;
 }
 .owl-item {
-  margin: 10px;
+  margin-right: 10px;
   /* border: 1px red solid; */
+  /* border: 1px black solid; */
+}
+.owl-item:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.owl-stage-outer {
+  height: 344px;
+}
+
+/* //!for dots  */
+/* .owl-nav button.owl-next {
+  position: absolute;
+  top: 20%;
+  right: 0%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50% !important;
+}
+button.owl-next span,
+button.owl-prev span {
+  display: block;
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+}
+
+.owl-nav button.owl-next span:hover {
+  background: url(/gif/arrow-right-2.svg);
+  background-position: center;
+  background-size: contain;
+
+  background-repeat: no-repeat;
+}
+.owl-nav button.owl-prev {
+  position: absolute;
+  top: 20%;
+  left: 0%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50% !important;
+}
+.owl-nav button.owl-prev span:hover {
+  background: url(/gif/arrow-left-1.svg);
+  background-position: center;
+  background-size: contain;
+
+  background-repeat: no-repeat;
+}
+*/
+.owl-theme .owl-dots .owl-dot span {
+  width: 30px;
+  height: 30px;
 }

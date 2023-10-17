@@ -1,34 +1,35 @@
-import React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
-import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
-import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 const HomeCardProduct = (props) => {
-  const { name, price } = props;
+  const { _id,name, price, imageUrl } = props;
+  const navigate = useNavigate();
   return (
     <>
       <Card sx={{ width: 320 }}>
         <div>
+          {/* //!name */}
           <Typography level="title-lg">{name}</Typography>
           <Typography level="body-sm">April 24 to May 02, 2021</Typography>
         </div>
         <AspectRatio minHeight="120px" maxHeight="200px">
+          {/* //!imageUrl */}
           <img
-            src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
-            srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
+            src={imageUrl}
             loading="lazy"
             alt=""
+            style={{ objectFit: "contain" }}
           />
         </AspectRatio>
         <CardContent orientation="horizontal">
           <div>
             <Typography level="body-xs">Total price:</Typography>
             <Typography fontSize="lg" fontWeight="lg">
-              {/* //!price */}
-              {price}
+              {/* //!price */}${price}
             </Typography>
           </div>
           <Button
@@ -37,6 +38,7 @@ const HomeCardProduct = (props) => {
             color="primary"
             aria-label="Explore Bahamas Islands"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+            onClick={() => navigate(`/product/detail/${_id}`)}
           >
             Explore
           </Button>

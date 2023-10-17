@@ -23,3 +23,8 @@ export const addProductQuery = async (values) => {
 export const editProductQuery = async (id, values) => {
   return await $axios.put(`/product/edit/${id}`, values);
 };
+
+//for latest Product
+export const lastestProduct = async (count) => {
+  return await $axios.post(`/product/latest/${count}`);
+};
