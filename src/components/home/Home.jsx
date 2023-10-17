@@ -6,6 +6,13 @@ import HomeCardProduct from "./HomeCardProduct";
 import "./home.css";
 
 const Home = () => {
+  const product = [
+    {
+      name: "king",
+      price: "2500",
+    },
+  ];
+
   const option = {
     item: 2,
     loop: true,
