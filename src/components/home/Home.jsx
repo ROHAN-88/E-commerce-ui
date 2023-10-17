@@ -6,49 +6,6 @@ import HomeCardProduct from "./HomeCardProduct";
 import "./home.css";
 
 const Home = () => {
-  const product = [
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-    {
-      name: "Dress",
-      price: "$2000",
-      img: "/gif",
-    },
-  ];
-
   const option = {
     item: 2,
     loop: true,
@@ -58,7 +15,7 @@ const Home = () => {
     animateOut: "slideOutUp",
     nav: false,
     dots: false,
-    margin: 10,
+    margin: 0,
     responsive: {
       600: {
         items: 4,
@@ -70,7 +27,7 @@ const Home = () => {
       <div className="home-top-category">
         <OwlCarousel className="owl-theme" {...option}>
           {product.map((item, index) => {
-            return <HomeCardProduct key={index} {...item} className="item" />;
+            return <HomeCardProduct key={index} {...item} className="item  " />;
           })}
         </OwlCarousel>
       </div>
