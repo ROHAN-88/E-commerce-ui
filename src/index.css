@@ -2,8 +2,10 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-image: url("https://thumbs.dreamstime.com/z/vector-e-commerce-pattern-word-e-commerce-background-vector-illustration-vector-e-commerce-pattern-word-e-commerce-114687653.jpg");
-  background-position: top;
+  /* background-image: url("https://thumbs.dreamstime.com/z/vector-e-commerce-pattern-word-e-commerce-background-vector-illustration-vector-e-commerce-pattern-word-e-commerce-114687653.jpg"); */
+  /* background-position: top; */
   /* backdrop-filter: blur(5px); */
+  background-color: #f5f7f8;
+
   overflow-x: hidden;
 }

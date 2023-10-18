@@ -97,7 +97,7 @@ const Home = () => {
   const [kitchenData, setKitchenData] = useState([]);
   const [electronicsData, setElectronicsData] = useState([]);
   const [clothingData, setClothingData] = useState([]);
-
+  const [vehicle, setVehicle] = useState([]);
   // State to manage loading state
   const [isLoading, setIsLoading] = useState(true);
 
@@ -125,6 +125,7 @@ const Home = () => {
       await fetchProducts("kitchen", setKitchenData);
       await fetchProducts("electronics", setElectronicsData);
       await fetchProducts("clothing", setClothingData);
+      await fetchProducts("vehicle", setVehicle);
 
       // After fetching, setting loading to false to hide the spinner
       setIsLoading(false);
@@ -187,7 +188,6 @@ const Home = () => {
             Latest Products
           </h1>
         </div>
-
         {/* Kitchen Category */}
         <div className="home-top-category">
           <h1
@@ -203,7 +203,6 @@ const Home = () => {
           {/* Render Kitchen category cards */}
           {renderCards(kitchenData)}
         </div>
-
         {/* Electronics Category */}
         <div className="home-top-category">
           <h1
@@ -219,7 +218,6 @@ const Home = () => {
           {/* Render Electronics category cards */}
           {renderCards(electronicsData)}
         </div>
-
         {/* Clothing Category */}
         <div className="home-top-category">
           <h1
@@ -234,6 +232,22 @@ const Home = () => {
           </h1>
           {/* Render Clothing category cards */}
           {renderCards(clothingData)}
+        </div>
+
+        {/* vehicle  */}
+        <div className="home-top-category">
+          <h1
+            style={{
+              marginLeft: "5rem",
+              color: "black",
+              textAlign: "center",
+            }}
+            className="card-head"
+          >
+            Vehicle
+          </h1>
+          {/* Render Clothing category cards */}
+          {renderCards(vehicle)}
         </div>
       </div>
     </>
