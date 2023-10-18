@@ -61,7 +61,7 @@ button.owl-prev span {
 .card-head::after {
   content: "";
   height: 4px;
-  background: #df2e38;
+  background: rgb(29, 27, 27);
 
   display: block;
   width: 200px;

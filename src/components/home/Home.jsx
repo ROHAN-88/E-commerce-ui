@@ -193,7 +193,7 @@ const Home = () => {
           <h1
             style={{
               marginLeft: "5rem",
-              color: "black",
+              color: "#df2e38",
               textAlign: "center",
             }}
             className="card-head"
@@ -208,7 +208,7 @@ const Home = () => {
           <h1
             style={{
               marginLeft: "5rem",
-              color: "black",
+              color: "#df2e38",
               textAlign: "center",
             }}
             className="card-head"
@@ -223,7 +223,7 @@ const Home = () => {
           <h1
             style={{
               marginLeft: "5rem",
-              color: "black",
+              color: "#df2e38",
               textAlign: "center",
             }}
             className="card-head"
@@ -239,7 +239,7 @@ const Home = () => {
           <h1
             style={{
               marginLeft: "5rem",
-              color: "black",
+              color: "#df2e38",
               textAlign: "center",
             }}
             className="card-head"
