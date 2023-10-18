@@ -89,7 +89,7 @@ const ProductDetail = () => {
                 FreeShipping :
                 {productData?.freeShipping === true ? "Yes" : "No"}
               </li>
-              <li>Price :Rs.{productData?.price} </li>
+              <li>Price :${productData?.price} </li>
               <li>
                 <Stack direction={"row"} sx={{ display: "flex", gap: "1rem" }}>
                   Quantity : {productData?.quantity}
