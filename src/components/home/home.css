@@ -58,3 +58,12 @@ button.owl-prev span {
   width: 30px;
   height: 30px;
 }
+.card-head::after {
+  content: "";
+  height: 4px;
+  background: #df2e38;
+
+  display: block;
+  width: 200px;
+  margin: auto;
+}

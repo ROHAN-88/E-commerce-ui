@@ -25,6 +25,6 @@ export const editProductQuery = async (id, values) => {
 };
 
 //for latest Product
-export const lastestProduct = async (count) => {
-  return await $axios.post(`/product/latest/${count}`);
+export const lastestProduct = async (count, category) => {
+  return await $axios.post(`/product/latest/${count}`, category);
 };
