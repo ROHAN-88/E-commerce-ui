@@ -29,7 +29,7 @@ const Signup = () => {
     },
     onError: (error) => {
       // console.log(error);
-      dispatch(openErrorSnackbar(error?.response?.data + "hello"));
+      dispatch(openErrorSnackbar("Password Must be Unique"));
     },
   });
 
